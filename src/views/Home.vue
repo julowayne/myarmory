@@ -1,8 +1,9 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
   <main>
+    <CharacterList />
   </main>
 </template>
+
+<script setup lang="ts">
+import CharacterList from '@/components/CharacterList.vue'
+</script>
