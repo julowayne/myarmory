@@ -1,6 +1,6 @@
 <template>
   <main>
-    <CharacterList />
+    <CharacterList :characters="[]" />
   </main>
 </template>
 
