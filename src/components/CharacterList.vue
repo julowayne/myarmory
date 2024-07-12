@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+
 import { WowAPI } from '@/components/services/wow.ts'
 
 const VITE_WOW_PROFILE_NAMESPACE = import.meta.env.VITE_WOW_PROFILE_NAMESPACE
@@ -16,18 +16,11 @@ interface Character {
   level: number
 }
 
-// const name = ref('Jules')
-// const reverseName = computed(() => {
-//   return name.value.toUpperCase()
-// })
 
 const props = defineProps<{
   characters: Character[]
 }>()
 
-// setTimeout(() => {
-//   name.value = 'toto'
-// }, 3_000)
 
 WowAPI.get('profile/user/wow', {
   namespace: VITE_WOW_PROFILE_NAMESPACE,
@@ -35,7 +28,4 @@ WowAPI.get('profile/user/wow', {
   access_token: VITE_API_TOKEN
 })
 
-// watch(name, (newName, oldName) => {
-//   console.log(newName, oldName)
-// })
 </script>

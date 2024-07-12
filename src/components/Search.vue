@@ -29,13 +29,6 @@
           </form>
         </div>
       </div>
-      <div class="results">
-        <div class="render" v-if="icon.length">
-          <div>
-            <img class="avatar" v-bind:src="icon[2]" alt="character img asset" />
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -51,6 +44,7 @@ const VITE_API_TOKEN = import.meta.env.VITE_API_TOKEN
 const realm = ref('')
 const characterName = ref('')
 
+
 function getCharacterInformations() {
   const icon = WowAPI.getCharaterImages(
     `profile/wow/character/${realm.value}/${characterName.value}/character-media`,
@@ -65,7 +59,6 @@ function getCharacterInformations() {
 
 <style>
 .wow {
-  width: 80vw;
   display: flex;
   padding: 20px;
   flex-direction: column;
