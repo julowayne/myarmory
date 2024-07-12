@@ -27,6 +27,9 @@
               <button class="send-btn" type="submit">submit</button>
             </div>
           </form>
+          <div v-if="avatars.length">
+            <img :src="avatars[1].value" alt="" />
+          </div>
         </div>
       </div>
     </div>
@@ -36,7 +39,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { WowAPI } from '@/components/services/wow.ts'
-
 const VITE_WOW_PROFILE_NAMESPACE = import.meta.env.VITE_WOW_PROFILE_NAMESPACE
 const VITE_WOW_LOCALE = import.meta.env.VITE_WOW_LOCALE
 const VITE_API_TOKEN = import.meta.env.VITE_API_TOKEN
@@ -44,9 +46,10 @@ const VITE_API_TOKEN = import.meta.env.VITE_API_TOKEN
 const realm = ref('')
 const characterName = ref('')
 
+const avatars = ref([])
 
-function getCharacterInformations() {
-  const icon = WowAPI.getCharaterImages(
+async function getCharacterInformations() {
+  avatars.value = await WowAPI.getCharaterImages(
     `profile/wow/character/${realm.value}/${characterName.value}/character-media`,
     {
       namespace: VITE_WOW_PROFILE_NAMESPACE,
@@ -57,7 +60,7 @@ function getCharacterInformations() {
 }
 </script>
 
-<style>
+<style scoped>
 .wow {
   display: flex;
   padding: 20px;

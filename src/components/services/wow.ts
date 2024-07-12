@@ -1,7 +1,6 @@
 import axios from 'axios'
 
 export class WowAPI {
-  
   static characterData = axios.create({
     baseURL: 'https://eu.api.blizzard.com/'
   })
@@ -42,7 +41,6 @@ export class WowAPI {
   static async getCharaterImages(path: string, params = {}) {
     try {
       const response = await this.characterData.get(path, { params })
-      console.log(response.data.assets)
       return response.data.assets
     } catch (error: any) {
       if (error.response) {
