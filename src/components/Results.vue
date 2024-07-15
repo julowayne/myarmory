@@ -9,7 +9,6 @@
       <div>{{ character.primaryProfession[1].profession.name }}</div>
       <div>{{ character.secondaryProfession[0].profession.name }}</div>
       <div>{{ character.secondaryProfession[1].profession.name }}</div>
-      <div ref="progressContainer" style="width: 100%; height: 10px"></div>
       <div>yo</div>
       <div>yo</div>
       <div>yo</div>
