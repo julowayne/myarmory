@@ -2,7 +2,7 @@
   <div class="character-data">
     <div class="avatar">
       <img :src="character.media" alt="" />
-      <h2 class="name">{{ character.name }}</h2>
+      <h2 class="name">{{ character.name }} - {{ character.realmName }}</h2>
     </div>
   </div>
 </template>

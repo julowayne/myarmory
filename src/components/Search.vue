@@ -44,23 +44,29 @@ const VITE_WOW_PROFILE_NAMESPACE = import.meta.env.VITE_WOW_PROFILE_NAMESPACE
 const VITE_WOW_LOCALE = import.meta.env.VITE_WOW_LOCALE
 const VITE_API_TOKEN = import.meta.env.VITE_API_TOKEN
 
-const realm = ref('')
 const characterName = ref('')
+const realm = ref('')
 
 interface Character {
   media: string
   name: string
+  id: Number
+  realmName: string
+  realmId: Number
 }
 
 const props = defineProps<Character>()
 
 const character = reactive({
   media: props.media,
-  name: props.name
+  name: props.name,
+  id: props.id,
+  realmName: props.realmName,
+  realmId: props.realmId
 })
 
 async function getCharacterInformations() {
-  const img = await WowAPI.getCharaterImages(
+  const data = await WowAPI.getCharaterImages(
     `profile/wow/character/${realm.value}/${characterName.value}/character-media`,
     {
       namespace: VITE_WOW_PROFILE_NAMESPACE,
@@ -69,9 +75,13 @@ async function getCharacterInformations() {
     }
   )
 
-  character.media = img
-  character.name = characterName.value
+  character.media = data.assets[0].value
+  character.name = data.character.name
+  character.id = data.character.id
+  character.realmName = data.character.realm.slug
+  character.realmId = data.character.realm.id
 
+  console.log(data)
 }
 </script>
 
