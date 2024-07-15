@@ -29,7 +29,7 @@
           </form>
         </div>
       </div>
-      <div v-if="character">
+      <div v-if="character.name">
         <Results :character="character" />
       </div>
     </div>
@@ -53,6 +53,8 @@ interface Character {
   id: Number
   realmName: string
   realmId: Number
+  primaryProfession: []
+  secondaryProfession: []
 }
 
 const props = defineProps<Character>()
@@ -62,11 +64,13 @@ const character = reactive({
   name: props.name,
   id: props.id,
   realmName: props.realmName,
-  realmId: props.realmId
+  realmId: props.realmId,
+  primaryProfession: props.primaryProfession,
+  secondaryProfession: props.secondaryProfession
 })
 
 async function getCharacterInformations() {
-  const data = await WowAPI.getCharaterImages(
+  const data = await WowAPI.get(
     `profile/wow/character/${realm.value}/${characterName.value}/character-media`,
     {
       namespace: VITE_WOW_PROFILE_NAMESPACE,
@@ -81,7 +85,25 @@ async function getCharacterInformations() {
   character.realmName = data.character.realm.slug
   character.realmId = data.character.realm.id
 
-  console.log(data)
+  
+  getCharacterProfessions()
+}
+
+async function getCharacterProfessions(){
+
+  const professions = await WowAPI.get(
+    `profile/wow/character/${realm.value}/${characterName.value}/professions`,
+    {
+      namespace: VITE_WOW_PROFILE_NAMESPACE,
+      locale: VITE_WOW_LOCALE,
+      access_token: VITE_API_TOKEN
+    }
+  )
+
+  character.primaryProfession = professions.primaries
+  character.secondaryProfession = professions.secondaries
+      
+  console.log(professions)
 }
 </script>
 
