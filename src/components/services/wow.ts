@@ -41,7 +41,7 @@ export class WowAPI {
   static async getCharaterImages(path: string, params = {}) {
     try {
       const response = await this.characterData.get(path, { params })
-      return response.data.assets
+      return response.data.assets[0].value
     } catch (error: any) {
       if (error.response) {
         return error.response.status

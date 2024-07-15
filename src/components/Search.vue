@@ -2,12 +2,12 @@
   <div class="content-padding">
     <div class="wow">
       <div class="form">
-        <h1 class="title">World of Warcraft</h1>
+        <h1 class="title">Find your character</h1>
         <div class="form-info">
           <form @submit.prevent="getCharacterInformations">
             <div class="inputs">
               <div>
-                <label for="character">Character name</label>
+                <label for="characterName">Character name</label>
               </div>
               <input
                 v-model="characterName"
@@ -27,18 +27,19 @@
               <button class="send-btn" type="submit">submit</button>
             </div>
           </form>
-          <div v-if="avatars.length">
-            <img :src="avatars[1].value" alt="" />
-          </div>
         </div>
+      </div>
+      <div v-if="character">
+        <Results :character="character" />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { reactive, ref, defineProps } from 'vue'
 import { WowAPI } from '@/components/services/wow.ts'
+import Results from '@/components/Results.vue'
 const VITE_WOW_PROFILE_NAMESPACE = import.meta.env.VITE_WOW_PROFILE_NAMESPACE
 const VITE_WOW_LOCALE = import.meta.env.VITE_WOW_LOCALE
 const VITE_API_TOKEN = import.meta.env.VITE_API_TOKEN
@@ -46,10 +47,20 @@ const VITE_API_TOKEN = import.meta.env.VITE_API_TOKEN
 const realm = ref('')
 const characterName = ref('')
 
-const avatars = ref([])
+interface Character {
+  media: string
+  name: string
+}
+
+const props = defineProps<Character>()
+
+const character = reactive({
+  media: props.media,
+  name: props.name
+})
 
 async function getCharacterInformations() {
-  avatars.value = await WowAPI.getCharaterImages(
+  const img = await WowAPI.getCharaterImages(
     `profile/wow/character/${realm.value}/${characterName.value}/character-media`,
     {
       namespace: VITE_WOW_PROFILE_NAMESPACE,
@@ -57,6 +68,10 @@ async function getCharacterInformations() {
       access_token: VITE_API_TOKEN
     }
   )
+
+  character.media = img
+  character.name = characterName.value
+
 }
 </script>
 
