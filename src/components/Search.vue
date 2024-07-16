@@ -29,7 +29,7 @@
           </form>
         </div>
       </div>
-      <div v-if="character.name">
+      <div v-if="character.primaryProfession">
         <Results :character="character" />
       </div>
     </div>
@@ -85,12 +85,10 @@ async function getCharacterInformations() {
   character.realmName = data.character.realm.slug
   character.realmId = data.character.realm.id
 
-  
   getCharacterProfessions()
 }
 
-async function getCharacterProfessions(){
-
+async function getCharacterProfessions() {
   const professions = await WowAPI.get(
     `profile/wow/character/${realm.value}/${characterName.value}/professions`,
     {
@@ -102,8 +100,6 @@ async function getCharacterProfessions(){
 
   character.primaryProfession = professions.primaries
   character.secondaryProfession = professions.secondaries
-      
-  console.log(professions)
 }
 </script>
 
